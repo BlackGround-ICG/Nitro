@@ -1,16 +1,17 @@
 #ifndef MESH_H
 #define MESH_H
-
-#include <vector>
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <stdlib.h>
+/*
 
 #include "vec.h"
-//#include "ogldev_texture.h"
+#include "ogldev_texture.h"
+*/
 
+#include <fstream>
+#include <vector>
+#include <sstream>
+#include <stdlib.h>
+#include <string>
+#include <iostream>
 using namespace std;
 
 class Mesh
@@ -21,10 +22,8 @@ class Mesh
     ~Mesh();
 
     void carregarArquivo(string nomeArquivo);
-    void redimensionar();
-    void normalizar();
-    void transladar();
-
+    
+    /*
     vector<Vertex> getVertex();
     vector<unsigned int> getIndice();
 
@@ -41,6 +40,7 @@ class Mesh
     
     string fileMtl;
     vector<Material> material;
+    */
 };
 
 #endif
