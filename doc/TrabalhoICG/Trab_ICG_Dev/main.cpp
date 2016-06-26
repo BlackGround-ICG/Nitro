@@ -20,20 +20,28 @@
 
 void carregarArquivo(string nomeArquivo){
   ifstream arquivo(nomeArquivo.c_str());
-  
+  std::cout << nomeArquivo << endl;
+
   if(!arquivo.is_open()){
-    cout << "Não foi possível abrir o aquivo!!!" << endl;
+    cout << "Não foi possível abrir o aquivo." << endl;
     exit(-1);
   }
+  cout << "Arquivo aberto com sucesso!" << endl;
 
+   string tipo;
+   getline(arquivo, tipo);
+
+   cout << tipo << endl;
 }
  /* Laço principal */
 int main(){
    
 
-    std::string nomeArgv = "spiderman.obj";
+    std::string nomeArgv = "Spider-Man.obj";
 
     carregarArquivo(nomeArgv);
+
+    cout << "Encerrando programa." << endl;
     
     return 0;
 }
