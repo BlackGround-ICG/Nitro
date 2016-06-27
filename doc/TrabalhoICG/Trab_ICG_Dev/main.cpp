@@ -15,20 +15,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "mesh.h"
+#include <list>
 
-//Mesh mesh;
-/*
-struct v e vn{
-  valor 1 2 3
-}
-struct vt {
-  valor 1 2 
-}
-struct f {
-  string 1 2 3 
-}
-*/
-
+using namespace std;
 
 void carregarArquivo(string nomeArquivo){
   
@@ -47,61 +36,55 @@ void carregarArquivo(string nomeArquivo){
    getline(arquivo, hash);
    cout << hash << endl;
 
-  string nome;
+  string nome, nome1;
   string line;
   string variavel;
   float valor1, valor2, valor3;
   string associacao1, associacao2, associacao3;
 
-  getline(arquivo,line);
-  stringstream ss (line);
-   ss >> valor1 >> valor2 >> valor3;
-  cout << line << endl;
-
   while(!arquivo.eof()){
+    getline(arquivo,line);
+    stringstream ss (line);
+    ss >> variavel;
 
     if(variavel == "v"){
-      //joga os valores 1, 2 e 3 pra uma lista;
-      //cout << variavel << valor1 << valor2 << valor3 << endl;
-      ss >> valor1 >> valor2 >> valor3;
-      getline(arquivo,line);
-      ss >> variavel;
+      stringstream ss (line);
+      ss >> variavel >> valor1 >> valor2 >> valor3;
+      cout << variavel << " "<< valor1 <<" "<< valor2 <<" "<< valor3 << endl ;
+
     }
+
     if(variavel == "vt"){
-      ss >> valor1 >> valor2;
-      cout << variavel << " " << valor1 << " " << valor2 << endl;      
-      
-      getline(arquivo,line);
-      ss >> variavel;
+      stringstream ss (line);
+      ss >> variavel >> valor1 >> valor2;
+      cout << variavel << " "<< valor1 <<" "<< valor2 <<" "<< endl ;
+
     }
     if(variavel == "vn"){
-      ss >> valor1 >> valor2 >> valor3;
-      getline(arquivo,line);
-      ss >> variavel;
+      stringstream ss (line);
+      ss >> variavel >> valor1 >> valor2 >> valor3;
+      cout << variavel << " " << valor1 << " " << valor2 << " " << valor3 << endl;
+
     }
     if(variavel == "f"){
-      ss >> associacao1 >> associacao2 >> associacao3;
-      getline(arquivo,line);
-      ss >> variavel;
+      stringstream ss (line);
+      ss >> variavel >> associacao1 >> associacao2 >> associacao3;
+      cout << variavel << " " << associacao1 << " " << associacao2 << " " << associacao3 << endl;
+
     }
     if(variavel == "s"){
-      ss >> valor1;
-      getline(arquivo, line);
-      ss >> variavel;
-    }else{
-      //a variavel é um nome
-      getline(arquivo, line);
-      cout << line << endl;
-      ss >> variavel;
+      stringstream ss (line);
+      ss >> variavel >> valor1;
+      cout << variavel << " " << valor1 << endl ;
+
     }
+    if(variavel == "usemtl" || variavel == "mtllib"){
+      stringstream ss (line);
+      ss >> variavel >> nome1;
+      cout << variavel << " "<< nome1 << endl ;
 
-
-
-
+    }
   }
-   
-
-
 }
  /* Laço principal */
 int main(){
