@@ -17,6 +17,18 @@
 #include "mesh.h"
 
 //Mesh mesh;
+/*
+struct v e vn{
+  valor 1 2 3
+}
+struct vt {
+  valor 1 2 
+}
+struct f {
+  string 1 2 3 
+}
+*/
+
 
 void carregarArquivo(string nomeArquivo){
   
@@ -28,7 +40,7 @@ void carregarArquivo(string nomeArquivo){
     exit(-1);
   }
   cout << "Arquivo aberto com sucesso!" << endl;
-  
+
   string hash;
    getline(arquivo, hash);
    cout << hash << endl;
@@ -36,28 +48,65 @@ void carregarArquivo(string nomeArquivo){
    cout << hash << endl;
 
   string nome;
-   getline(arquivo, nome);
-   cout << nome << endl;
-
   string line;
   string variavel;
   float valor1, valor2, valor3;
+  string associacao1, associacao2, associacao3;
+
   getline(arquivo,line);
   stringstream ss (line);
-  ss >> variavel >> valor1 >> valor2 >> valor3;
+   ss >> valor1 >> valor2 >> valor3;
+  cout << line << endl;
 
-  cout << variavel << endl;
-  cout << valor1 << endl;
-  cout << valor2 << endl;
-  cout << valor3 << endl;
+  while(!arquivo.eof()){
 
+    if(variavel == "v"){
+      //joga os valores 1, 2 e 3 pra uma lista;
+      //cout << variavel << valor1 << valor2 << valor3 << endl;
+      ss >> valor1 >> valor2 >> valor3;
+      getline(arquivo,line);
+      ss >> variavel;
+    }
+    if(variavel == "vt"){
+      ss >> valor1 >> valor2;
+      cout << variavel << " " << valor1 << " " << valor2 << endl;      
+      
+      getline(arquivo,line);
+      ss >> variavel;
+    }
+    if(variavel == "vn"){
+      ss >> valor1 >> valor2 >> valor3;
+      getline(arquivo,line);
+      ss >> variavel;
+    }
+    if(variavel == "f"){
+      ss >> associacao1 >> associacao2 >> associacao3;
+      getline(arquivo,line);
+      ss >> variavel;
+    }
+    if(variavel == "s"){
+      ss >> valor1;
+      getline(arquivo, line);
+      ss >> variavel;
+    }else{
+      //a variavel é um nome
+      getline(arquivo, line);
+      cout << line << endl;
+      ss >> variavel;
+    }
+
+
+
+
+  }
+   
 
 
 }
  /* Laço principal */
 int main(){
    
-    std::string nomeArgv = "Spider-Man.obj";
+    std::string nomeArgv = "Spider-Man-simples.obj";
     carregarArquivo(nomeArgv);
     cout << "Encerrando programa." << endl;
     
