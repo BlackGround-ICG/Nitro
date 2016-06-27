@@ -23,6 +23,9 @@ class Mesh
 
     void carregarArquivo(string nomeArquivo);
     void jogaParaListaV(float a, float b, float c);
+    void jogaParaListaVT(float a, float b);
+    void jogaParaListaVN(float a, float b, float c);
+    void jogaParaListaF(string a, string b, string c);
     /*
     vector<Vertex> getVertex();
     vector<unsigned int> getIndice();
