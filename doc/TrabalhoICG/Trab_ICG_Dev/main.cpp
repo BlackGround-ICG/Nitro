@@ -4,12 +4,13 @@
 #include "mesh.h"
 #include <list>
 #include <iostream>
+#include <math.h>
 
 using namespace std;
 
 list<float> listaV;
 list<float> listaVT;
-list<float> listaVN;
+list<double> listaVN;
 list<string> listaF;
 
 void jogaParaListaV(float a, float b, float c){
@@ -23,7 +24,17 @@ void jogaParaListaVT(float a, float b){
   listaVT.push_back(b);
 }
 
-void jogaParaListaVN(float a, float b, float c){
+void normalizaVetor(double *a, double *b, double *c){
+  double norma = 0;
+  norma = sqrt(pow(*a,2) + pow(*b,2) + pow(*c,2));
+  *a = *a/norma*1.0;
+  *c = *b/norma*1.0;
+  *c = *c/norma*1.0;
+  //printf("Normalizados: A -> %.5lf B -> %.5lf C -> %.5lf\n",*a,*b,*c);
+}
+
+void jogaParaListaVN(double a, double b, double c){
+  normalizaVetor(&a,&b,&c);
   listaVN.push_back(a);
   listaVN.push_back(b);
   listaVN.push_back(c);
@@ -121,13 +132,14 @@ int main(){
     cout << *it << endl;
 
   cout << "Todos valores de VN:" << endl;
-  for (std::list<float>::iterator it = listaVN.begin(); it != listaVN.end(); it++)
+  for (std::list<double>::iterator it = listaVN.begin(); it != listaVN.end(); it++)
     cout << *it << endl;
 
   cout << "Todos valores de F:" << endl;
   for (std::list<string>::iterator it = listaF.begin(); it != listaF.end(); it++)
     cout << *it << endl;
 
+  //normalizaVetor(1,-2,2);
   cout << "Encerrando programa." << endl;
   
   return 0;
