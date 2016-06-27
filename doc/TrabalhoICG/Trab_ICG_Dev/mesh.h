@@ -22,7 +22,7 @@ class Mesh
     ~Mesh();
 
     void carregarArquivo(string nomeArquivo);
-    
+    void jogaParaListaV(float a, float b, float c);
     /*
     vector<Vertex> getVertex();
     vector<unsigned int> getIndice();
