@@ -1,10 +1,5 @@
 #ifndef MESH_H
 #define MESH_H
-/*
-
-#include "vec.h"
-#include "ogldev_texture.h"
-*/
 
 #include <fstream>
 #include <vector>
@@ -12,40 +7,36 @@
 #include <stdlib.h>
 #include <string>
 #include <iostream>
+#include <list>
+#include <math.h>
+
 using namespace std;
 
-class Mesh
-{
-  public:
+namespace ijengine {
+  typedef struct Listas {
+    list<float> listaV;
+    list<float> listaVT;
+    list<double> listaVN;
+    list<string> listaF;
+    float Xmin, Xmax, Ymin, Ymax, Zmin, Zmax;
+  }Lista;
 
-    Mesh();
-    ~Mesh();
+  class Mesh
+  {
+    public:
 
-    void carregarArquivo(string nomeArquivo);
-    void jogaParaListaV(float a, float b, float c);
-    void jogaParaListaVT(float a, float b);
-    void jogaParaListaVN(double a, double b, double c);
-    void jogaParaListaF(string a, string b, string c);
-    void normalizaVetor(float a, float b, float c);
-    /*
-    vector<Vertex> getVertex();
-    vector<unsigned int> getIndice();
+      Mesh();
+      ~Mesh();
 
-  private:
+      void carregarArquivo(string nomeArquivo);
+      void jogaParaListaV(float a, float b, float c);
+      void jogaParaListaVT(float a, float b);
+      void jogaParaListaVN(double a, double b, double c);
+      void jogaParaListaF(string a, string b, string c);
+      void normalizaVetor(double *a, double *b, double *c);
 
-    double encontrarDeltaX();
-    double encontrarDeltaY();
-    double encontrarDeltaZ();
-
-    double deltaX, deltaY, deltaZ, xMin, yMin, zMin;
-    int qtdPontos, qtdArestas, qtdTextura;
-    vector<Vertex> vertex;
-    vector<unsigned int> indice;
-    
-    string fileMtl;
-    vector<Material> material;
-    */
-};
+      Lista lista;
+  };
+}
 
 #endif
-
