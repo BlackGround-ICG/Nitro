@@ -14,11 +14,41 @@ Mesh mesh;
 int main(){
 
   string nomeArgv = "Spider-Man-simples.obj";
-  mesh.carregarArquivo(nomeArgv);
 
-  cout << "Todos valores de V:" << endl;
-  for (auto it : mesh.lista.listaV)
-    cout << it << endl;
+  mesh.carregarArquivo(nomeArgv);
+  mesh.centralizaObj();
+
+  cout << endl <<endl << "Todos valores de V Centralizados:" << endl;
+
+  int n=0;
+  for (auto it : mesh.lista.listaV){
+    if(n==0){
+      cout << "X: " << it << "  ";
+      n++;
+    }
+    else if(n==1){
+      cout << "Y: " << it << "  ";
+      n++;
+    }
+    else if(n==2){
+      cout << "Z: " << it << "  ";
+      n=0;
+    }
+  }
+
+  mesh.redimensionaObj();
+
+  n=0;
+
+  for (auto it : mesh.lista.listaV){
+    if(n==0){cout << "X: " << it << "  "; n++; }
+    else if(n==1){cout << "Y: " << it << "  "; n++; }
+    else if(n==2){ cout << "Z: " << it << "  "; n=0; }
+  }
+
+  printf("\n\nValores minimos e maximos para uma segunda centralizacao\n");
+
+  mesh.centralizaObj();
 
   cout << "Todos valores de VT:" << endl;
   for (auto it : mesh.lista.listaVT)

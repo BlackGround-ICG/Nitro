@@ -96,6 +96,89 @@ namespace ijengine {
     //printf("Normalizados: A -> %.5lf B -> %.5lf C -> %.5lf\n",*a,*b,*c);
   }
 
+  void Mesh::centralizaObj(){
+    int n = 0;
+    float x, y, z;
+    float xMax = -100000, yMax = -100000, zMax = -100000;
+    float xMin = 100000, yMin = 100000, zMin = 100000;
+
+    cout << "Centralizando V:" << endl;
+
+    for (auto it : lista.listaV){
+      if(n==0){
+        x = it;
+        if(x > xMax) xMax = x;
+        if(x < xMin) xMin = x;
+        n++;
+      }
+      else if(n==1){
+        y = it;
+        if(y > yMax) yMax = y;
+        if(y < yMin) yMin = y;
+        n++;
+      }
+      else if(n==2){
+        z = it;
+        if(z > zMax) zMax = z;
+        if(z < zMin) zMin = z;
+        n=0;
+      }
+    }
+
+    float deltaX, deltaY, deltaZ;
+
+    deltaX = xMax - xMin;
+    deltaY = yMax - yMin;
+    deltaZ = zMax - zMin;
+    n=0;
+
+    for (auto it : lista.listaV){
+      if(n==0){
+        it = it - (xMin + deltaX/2*1.0);
+        //cout << "X: " << *it << endl;
+        n++;
+      }
+      else if(n==1){
+        it = it - (yMin + deltaY/2*1.0);
+        //cout << "Y: " << *it << endl;
+        n++;
+      }
+      else if(n==2){
+        it = it - (zMin + deltaZ/2*1.0);
+        //cout << "Z: " << *it << endl;
+        n=0;
+      }
+    }
+    cout << "Valores \txMax: " << xMax << " \tyMax: "<< yMax << " \tzMax: " << zMax << endl;
+    cout << "Valores \txMin: " << xMin << " \tyMin: "<< yMin << " \tzMin: " << zMin << endl;
+    cout << "Valores \tDeltaX: " << deltaX << " \tdeltaY: "<< deltaY << " \tdeltaZ: " << deltaZ;
+    lista.Xmax = xMax;
+    lista.Ymax = yMax;
+    lista.Zmax = zMax;
+
+    lista.Xmin = xMin;
+    lista.Ymin = yMin;
+    lista.Zmin = zMin;
+
+    lista.deltaX= deltaX;
+    lista.deltaY= deltaY;
+    lista.deltaZ= deltaZ;
+
+}
+
+  void Mesh::redimensionaObj(){
+    //ver maior delta
+    float maiorDelta = -100000;
+
+    if(lista.deltaX > maiorDelta) maiorDelta = lista.deltaX;
+    if(lista.deltaY > maiorDelta) maiorDelta = lista.deltaY;
+    if(lista.deltaZ > maiorDelta) maiorDelta = lista.deltaZ;
+
+    for (auto it : lista.listaV){
+      it = it/maiorDelta*1.0;
+    }
+  }
+
   void Mesh::jogaParaListaVN(double a, double b, double c){
     normalizaVetor(&a,&b,&c);
     lista.listaVN.push_back(a);

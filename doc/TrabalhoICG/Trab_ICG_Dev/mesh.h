@@ -19,6 +19,7 @@ namespace ijengine {
     list<double> listaVN;
     list<string> listaF;
     float Xmin, Xmax, Ymin, Ymax, Zmin, Zmax;
+    float deltaX, deltaY, deltaZ;
   }Lista;
 
   class Mesh
@@ -34,6 +35,8 @@ namespace ijengine {
       void jogaParaListaVN(double a, double b, double c);
       void jogaParaListaF(string a, string b, string c);
       void normalizaVetor(double *a, double *b, double *c);
+      void centralizaObj();
+      void redimensionaObj();
 
       Lista lista;
   };
