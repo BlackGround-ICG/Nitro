@@ -12,31 +12,22 @@
 
 using namespace std;
 
-namespace ijengine {
-  typedef struct Listas {
-    list<float> listaV;
-    list<float> listaVT;
-    list<double> listaVN;
-    list<string> listaF;
-    float Xmin, Xmax, Ymin, Ymax, Zmin, Zmax;
-  }Lista;
+class Mesh
+{
+  public:
 
-  class Mesh
-  {
-    public:
+    Mesh();
+    ~Mesh();
+    typedef struct struct_lista Lista;
+    void carregarArquivo(string nomeArquivo,Lista *listaCompleta);
+    void jogaParaListaV(float a, float b, float c,Lista *listaCompleta);
+    void jogaParaListaVT(float a, float b,Lista *listaCompleta);
+    void jogaParaListaVN(double a, double b, double c,Lista *listaCompleta);
+    void jogaParaListaF(string a, string b, string c,Lista *listaCompleta);
+    void normalizaVetor(float a, float b, float c);
+    void centralizaObj(Lista *listaCompleta);
+    void redimensionaObj(Lista *listaCompleta);
 
-      Mesh();
-      ~Mesh();
-
-      void carregarArquivo(string nomeArquivo);
-      void jogaParaListaV(float a, float b, float c);
-      void jogaParaListaVT(float a, float b);
-      void jogaParaListaVN(double a, double b, double c);
-      void jogaParaListaF(string a, string b, string c);
-      void normalizaVetor(double *a, double *b, double *c);
-
-      Lista lista;
-  };
-}
+};
 
 #endif
