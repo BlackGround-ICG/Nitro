@@ -4,11 +4,17 @@
 #include "mesh.h"
 #include <list>
 #include <iostream>
+#include <SDL2/SDL.h>
+#include <GL/glew.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 
 using namespace std;
 using namespace ijengine;
 
 Mesh mesh;
+
+SDL_Window* displayWindow;
 
  /* Laço principal */
 int main(){
@@ -50,20 +56,58 @@ int main(){
 
   mesh.centralizaObj();
 
-  cout << "Todos valores de VT:" << endl;
+  cout << endl << endl << "Todos valores de VT:" << endl;
   for (auto it : mesh.lista.listaVT)
-    cout << it << endl;
+    cout << it << " ";
 
-  cout << "Todos valores de VN:" << endl;
+  cout << endl << endl << "Todos valores de VN:" << endl;
   for (auto it : mesh.lista.listaVN)
-    cout << it << endl;
+    cout << it << " ";
 
-  cout << "Todos valores de F:" << endl;
+  cout << endl << endl << "Todos valores de F:" << endl;
   for (auto it : mesh.lista.listaF)
-    cout << it << endl;
+    cout << it << " ";
 
-  //normalizaVetor(1,-2,2);
-  cout << "Encerrando programa." << endl;
+  cout << endl << endl;
+  SDL_Init(SDL_INIT_VIDEO);
+  SDL_Renderer* displayRenderer;
+  int flags = SDL_WINDOW_OPENGL;
+  atexit(SDL_Quit);
+
+  SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
+  SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
+  SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+  SDL_CreateWindowAndRenderer(1024, 768, flags,&displayWindow, &displayRenderer);
+
+  SDL_GL_CreateContext(displayWindow);
+  /*
+  GLenum res = glewInit();
+  if (glewIsSupported("GL_VERSION_3_3"))
+    printf("Ready for OpenGL 3.3\n");
+  else {
+    printf("OpenGL 3.3 not supported\n");
+    exit(1);
+  }
+    if (res != GLEW_OK) {
+      fprintf(stderr, "Error: '%s'\n", glewGetErrorString(res));
+      return 1;
+    }
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    CreateVertexBuffer();
+    CreateIndexBuffer();
+    CompileShaders();
+    int i=20;
+    while (i--){
+      RenderSceneCB();  
+      
+      SDL_Delay(500);
+  }
+    SDL_Quit();
+    */
+    
 
   return 0;
 }
