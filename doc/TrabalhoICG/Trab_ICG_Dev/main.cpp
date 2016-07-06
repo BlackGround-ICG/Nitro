@@ -24,168 +24,68 @@ using namespace ijengine;
 
 Mesh mesh;
 
-
 SDL_Window* displayWindow;
 
-GLuint VBO, TBO[2],IBO;
+GLuint VBO[3], TBO[1], IBO, VAO;
 int gSampler, count=0;
 
 const char* pVSFileName = "shader.vs";
 const char* pFSFileName = "shader.fs";
-static void CreateIndexBuffer();
 
 static void RenderSceneCB(){
-    glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT);
+  glEnableVertexAttribArray(0); //Posição no shader dos vértices
+  glEnableVertexAttribArray(1); //Posição no shader da textura
+  glEnableVertexAttribArray(2); //Posição no shader da normal
 
-    glEnableVertexAttribArray(0); //Posição no shader dos vértices
-    glEnableVertexAttribArray(1); //Posição no shader da textura
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(mesh.lista.listaV), 0);
-    
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(mesh.lista.listaVT), (const GLvoid*)(sizeof(float)*3));
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, TBO[count]);
-    
-    if (count==0){
-      count=1;
-    }else {
-      count=0;
-    }
+  glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+  glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+  glBindBuffer(GL_ARRAY_BUFFER, VBO[2]);
+  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+  glDrawElements(GL_TRIANGLES, sizeof(mesh.lista.listaV), GL_UNSIGNED_INT, 0);
+
+  glDisableVertexAttribArray(0);
+  glDisableVertexAttribArray(1);
+  glDisableVertexAttribArray(2);
+  SDL_GL_SwapWindow(displayWindow);
+}
+
+
+static void CreateVertexBuffer(Mesh mesh){
+  glGenBuffers(1, &VAO);
+  glGenBuffers(3, &VBO[3]);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(mesh.lista.listaV),  &mesh.lista.listaV, GL_STATIC_DRAW);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(mesh.lista.listaVN),  &mesh.lista.listaVN, GL_STATIC_DRAW);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO[2]);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(mesh.lista.listaVT), &mesh.lista.listaVT, GL_STATIC_DRAW);
+   
+  glUniform1i(gSampler, 0);
   
-    glDrawElements(GL_TRIANGLES, sizeof(mesh.lista.listaV), GL_UNSIGNED_INT, 0);
+  SDL_Surface * image = SDL_LoadBMP("homemaranha.bmp");
+  if(image == NULL){
+    printf("\n Erro ao ler a imagem de textura %s\n", SDL_GetError());
+  }
+  int Mode = GL_BGR;
+  if(image->format->BytesPerPixel == 4) {
+    Mode = GL_RGBA;
+  }
 
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
+  glGenTextures(2, &TBO[0]);
+  glBindTexture(GL_TEXTURE_2D, TBO[0]);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->w, image->h, 0,Mode, GL_UNSIGNED_BYTE, image->pixels);
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    SDL_GL_SwapWindow(displayWindow);
+
 }
 
-
-static void CreateVertexBuffer(){
-
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(mesh.lista.listaV), &mesh.lista.listaV, GL_STATIC_DRAW);
-    //Textura
-
-    glUniform1i(gSampler, 0);
-    SDL_Surface * image = SDL_LoadBMP("images.bmp");
-
-    
-    if(image == NULL){
-      printf("\n Erro ao ler a imagem de textura %s\n", SDL_GetError());
-    }
-    int Mode = GL_BGR;
-    if(image->format->BytesPerPixel == 4) {
-      Mode = GL_RGBA;
-    }
-
-    glGenTextures(2, &TBO[0]);
-    glBindTexture(GL_TEXTURE_2D, TBO[0]);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->w, image->h, 0,Mode, GL_UNSIGNED_BYTE, image->pixels);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    image = SDL_LoadBMP("test.bmp");
-
-    
-    if(image == NULL){
-      printf("\n Erro ao ler a imagem de textura %s\n", SDL_GetError());
-    }
-    Mode = GL_BGR;
-    if(image->format->BytesPerPixel == 4) {
-     Mode = GL_RGBA;
-    }
-
-    glBindTexture(GL_TEXTURE_2D, TBO[1]);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->w, image->h, 0,Mode, GL_UNSIGNED_BYTE, image->pixels);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-}
-
-static void CreateIndexBuffer(){
-    unsigned int Indices[] = { 0, 3, 1,
-                               1, 3, 2,
-                               2, 3, 0,
-                               0, 1, 2 };
-
-    glGenBuffers(1, &IBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
-}
-
-static void AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType){
-    GLuint ShaderObj = glCreateShader(ShaderType);
-
-    if (ShaderObj == 0) {
-        fprintf(stderr, "Error creating shader type %d\n", ShaderType);
-        exit(0);
-    }
-
-    const GLchar* p[1];
-    p[0] = pShaderText;
-    GLint Lengths[1];
-    Lengths[0]= strlen(pShaderText);
-    glShaderSource(ShaderObj, 1, p, Lengths);
-    glCompileShader(ShaderObj);
-    GLint success;
-    glGetShaderiv(ShaderObj, GL_COMPILE_STATUS, &success);
-    if (!success) {
-        GLchar InfoLog[1024];
-        glGetShaderInfoLog(ShaderObj, 1024, NULL, InfoLog);
-        fprintf(stderr, "Error compiling shader type %d: '%s'\n", ShaderType, InfoLog);
-        exit(1);
-    }
-
-    glAttachShader(ShaderProgram, ShaderObj);
-}
-
-static void CompileShaders(){
-    GLuint ShaderProgram = glCreateProgram();
-
-    if (ShaderProgram == 0) {
-        fprintf(stderr, "Error creating shader program\n");
-        exit(1);
-    }
-    
-    string vs, fs;
-
-    if (!ReadFile(pVSFileName, vs)) {
-        exit(1);
-    };
-
-    if (!ReadFile(pFSFileName, fs)) {
-        exit(1);
-    };
-
-    AddShader(ShaderProgram, vs.c_str(), GL_VERTEX_SHADER);
-    AddShader(ShaderProgram, fs.c_str(), GL_FRAGMENT_SHADER);
-
-    GLint Success = 0;
-    GLchar ErrorLog[1024] = { 0 };
-
-    glLinkProgram(ShaderProgram);
-    glGetProgramiv(ShaderProgram, GL_LINK_STATUS, &Success);
-    if (Success == 0) {
-      glGetProgramInfoLog(ShaderProgram, sizeof(ErrorLog), NULL, ErrorLog);
-      fprintf(stderr, "Error linking shader program: '%s'\n", ErrorLog);
-          exit(1);
-    }
-
-    glValidateProgram(ShaderProgram);
-    glGetProgramiv(ShaderProgram, GL_VALIDATE_STATUS, &Success);
-    if (!Success) {
-        glGetProgramInfoLog(ShaderProgram, sizeof(ErrorLog), NULL, ErrorLog);
-        fprintf(stderr, "Invalid shader program: '%s'\n", ErrorLog);
-        exit(1);
-    }
-
-    glUseProgram(ShaderProgram);
-    gSampler = glGetUniformLocation(ShaderProgram, "gSampler");
-}
-
- /* Laço principal */
 int main(){
 
   string nomeArgv = "Spider-Man-simples.obj";
@@ -197,18 +97,9 @@ int main(){
 
   int n=0;
   for (auto it : mesh.lista.listaV){
-    if(n==0){
-      cout << "X: " << it << "  ";
-      n++;
-    }
-    else if(n==1){
-      cout << "Y: " << it << "  ";
-      n++;
-    }
-    else if(n==2){
-      cout << "Z: " << it << "  ";
-      n=0;
-    }
+    if(n==0){cout << "X: " << it << "  "; n++; }
+    else if(n==1){ cout << "Y: " << it << "  "; n++; }
+    else if(n==2){ cout << "Z: " << it << "  "; n=0; }
   }
 
   mesh.redimensionaObj();
@@ -261,9 +152,9 @@ int main(){
   }
 
   glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-  CreateVertexBuffer();
+  CreateVertexBuffer(mesh);
 
-  CreateIndexBuffer();
+  //CreateIndexBuffer();
   //CompileShaders();
 
   while(exitSuccess == false){

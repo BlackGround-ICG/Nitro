@@ -1,4 +1,8 @@
 #include "mesh.h"
+#include <string>
+#include <iostream>
+
+using namespace std;
 
 namespace ijengine {
 
@@ -187,8 +191,14 @@ namespace ijengine {
   }
 
   void Mesh::jogaParaListaF(string a, string b, string c){
-    lista.listaF.push_back(a);
-    lista.listaF.push_back(b);
-    lista.listaF.push_back(c);
+    //pega primeiros valores de a, b e c
+    int aa = stoi(a);
+    int bb = stoi(b);
+    int cc = stoi(c);
+
+    lista.listaF.push_back(aa);
+    lista.listaF.push_back(bb);
+    lista.listaF.push_back(cc);
   }
 }
+

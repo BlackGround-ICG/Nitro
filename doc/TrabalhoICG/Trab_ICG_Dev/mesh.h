@@ -17,7 +17,7 @@ namespace ijengine {
     list<float> listaV;
     list<float> listaVT;
     list<double> listaVN;
-    list<string> listaF;
+    list<int> listaF;
     float Xmin, Xmax, Ymin, Ymax, Zmin, Zmax;
     float deltaX, deltaY, deltaZ;
   }Lista;
