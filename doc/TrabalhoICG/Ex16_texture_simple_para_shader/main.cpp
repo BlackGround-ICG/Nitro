@@ -35,12 +35,11 @@ const char* pVSFileName = "shader.vs";
 const char* pFSFileName = "shader.fs";
 static void CreateIndexBuffer();
 
-static void RenderSceneCB()
-{
+static void RenderSceneCB(){
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glEnableVertexAttribArray(0); //Posição no shader dos vértices
-    glEnableVertexAttribArray(1); //Posição no shader da textura
+    glEnableVertexAttribArray(0); //PosiÃ§Ã£o no shader dos vÃ©rtices
+    glEnableVertexAttribArray(1); //PosiÃ§Ã£o no shader da textura
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
     
@@ -59,7 +58,7 @@ static void RenderSceneCB()
   
     glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
 
-//    glDrawArrays(GL_TRIANGLES, 0, 4);
+ //    glDrawArrays(GL_TRIANGLES, 0, 4);
 
     glDisableVertexAttribArray(0);
    glDisableVertexAttribArray(1);
@@ -68,8 +67,7 @@ static void RenderSceneCB()
 }
 
 
-static void CreateVertexBuffer()
-{
+static void CreateVertexBuffer(){
 
   	Vertex Vertices[4] = { Vertex(Vector3f(-1.0f, -1.0f, 0.5773f), Vector2f(0.0f, 0.0f)),
                            Vertex(Vector3f(0.0f, -1.0f, -1.15475f), Vector2f(0.5f, 0.0f)),
@@ -115,8 +113,7 @@ static void CreateVertexBuffer()
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
-static void CreateIndexBuffer()
-{
+static void CreateIndexBuffer(){
     unsigned int Indices[] = { 0, 3, 1,
                                1, 3, 2,
                                2, 3, 0,
@@ -127,8 +124,7 @@ static void CreateIndexBuffer()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
 }
 
-static void AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType)
-{
+static void AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType){
     GLuint ShaderObj = glCreateShader(ShaderType);
 
     if (ShaderObj == 0) {
@@ -155,8 +151,7 @@ static void AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum Shad
 }
 
 
-static void CompileShaders()
-{
+static void CompileShaders(){
     GLuint ShaderProgram = glCreateProgram();
 
     if (ShaderProgram == 0) {
@@ -200,7 +195,7 @@ static void CompileShaders()
     gSampler = glGetUniformLocation(ShaderProgram, "gSampler");
 }
 
- /* Laço principal */
+ /* LaÃ§o principal */
 int
 main()
 {

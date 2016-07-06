@@ -1,3 +1,3 @@
 all: 
 
-	g++ main.cpp -o a.out mesh.cpp -W -Wall -pedantic -ansi -lm -std=c++11 -lSDL2 -lGLEW
+	g++ main.cpp ogldev_util.cpp mesh.cpp -o a.out -W -Wall -pedantic -ansi -lm -std=c++11 -lSDL2 -lGLEW -lGL -lGLU

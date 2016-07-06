@@ -38,3 +38,4 @@ that use SDL. Please see docs/README-linux.md for a
 more complete discussion of packages involved.
 
 sudo apt-get install libglew-dev
+sudo apt-get install libsdl2-image-dev
