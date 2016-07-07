@@ -1,0 +1,59 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[pdftex]{graphicx}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{indentfirst}
+\usepackage{setspace}
+\usepackage{anysize}
+\usepackage{makeidx}
+\usepackage[brazil]{babel}
+\usepackage{longtable}
+\usepackage{multirow} 
+\usepackage{hyperref}
+\usepackage{subfig}
+\makeindex
+
+\newcommand{\longtableendfoot}{Continuará na próxima página}
+
+\geometry{
+	verbose,
+	a4paper,
+	left = 30mm,
+	top = 30mm,
+	right = 20mm,
+	bottom = 20mm
+}
+
+\begin{document}
+
+\input{capa}
+
+\onehalfspacing
+\tableofcontents
+\newpage
+
+\input{conceito}
+\pagebreak
+\input{historia}
+\pagebreak
+\input{controles}
+\pagebreak
+\input{requisitos}
+\pagebreak
+\input{frontend}
+\pagebreak
+\input{telas}
+\pagebreak
+\input{camera-hud}
+\pagebreak
+\input{personagem}
+\pagebreak
+\input{powerups}
+\pagebreak
+\input{saude}
+\pagebreak
+\input{pontuacao}
+\pagebreak
+
+\end{document}
